@@ -54,8 +54,9 @@ export const tryOnService = {
           status: 'success',
           resultUrl: response.resultUrl,
           jobId: response.jobId,
-          source: 'backend',
-          timestamp: new Date().toISOString()
+          source: response.source || 'backend',
+          timestamp: new Date().toISOString(),
+          aiStylingAdvice: response.aiStylingAdvice
         };
       }
 

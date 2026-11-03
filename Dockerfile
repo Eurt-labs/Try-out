@@ -32,3 +32,4 @@ ENV ENV=production
 EXPOSE 8000
 
 CMD ["python", "backend/run.py"]
+

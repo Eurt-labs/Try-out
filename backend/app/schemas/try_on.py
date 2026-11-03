@@ -12,6 +12,7 @@ class TryOnResponse(BaseModel):
     error: Optional[str] = None
     source: str = "backend"
     timestamp: Optional[str] = None
+    aiStylingAdvice: Optional[str] = None
 
 class TryOnJobStatus(BaseModel):
     status: str  # 'processing' | 'completed' | 'failed'

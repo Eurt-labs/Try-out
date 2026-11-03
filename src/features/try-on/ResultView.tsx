@@ -12,6 +12,7 @@ export interface ResultViewProps {
   outfit: Outfit | null;
   originalPhotoUrl?: string | null;
   isDemoResult?: boolean;
+  aiStylingAdvice?: string | null;
   onChangePhoto?: () => void;
 }
 
@@ -20,6 +21,7 @@ export function ResultView({
   outfit,
   originalPhotoUrl,
   isDemoResult = false,
+  aiStylingAdvice,
   onChangePhoto
 }: ResultViewProps) {
   const navigate = useNavigate();
@@ -122,6 +124,30 @@ export function ResultView({
           </button>
         </div>
       </div>
+
+      {/* Gemini AI Stylist Commentary */}
+      {aiStylingAdvice && (
+        <div style={{
+          margin: '0.5rem 0 1.25rem 0',
+          padding: '1rem 1.25rem',
+          borderRadius: '12px',
+          background: 'linear-gradient(135deg, rgba(115, 87, 232, 0.08), rgba(22, 163, 106, 0.06))',
+          border: '1px solid rgba(115, 87, 232, 0.25)',
+          display: 'flex',
+          gap: '0.85rem',
+          alignItems: 'flex-start'
+        }}>
+          <Sparkles size={18} style={{ color: '#7357E8', marginTop: '2px', flexShrink: 0 }} />
+          <div>
+            <div style={{ fontSize: '0.78rem', fontWeight: 700, color: '#7357E8', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+              Gemini AI Stylist Recommendation
+            </div>
+            <div style={{ fontSize: '0.92rem', color: '#1e293b', marginTop: '0.25rem', lineHeight: 1.55 }}>
+              {aiStylingAdvice}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Main Image Stage */}
       <div className="result-stage">

@@ -64,6 +64,7 @@ export interface TryOnState {
   error: string | null;
   source: string | null;
   isDemoResult: boolean;
+  aiStylingAdvice?: string | null;
 }
 
 export interface SavedLook {
@@ -106,5 +107,6 @@ export interface TryOnApiResponse {
   source?: string;
   allowDemoPreview?: boolean;
   timestamp?: string;
+  aiStylingAdvice?: string | null;
 }
 

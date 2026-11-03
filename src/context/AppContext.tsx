@@ -21,7 +21,7 @@ export type AppAction =
   | { type: 'REMOVE_PHOTO' }
   | { type: 'SET_SELECTED_OUTFIT'; payload: Outfit | null }
   | { type: 'SET_TRY_ON_STATUS'; payload: { status: TryOnStatus; error?: string | null } }
-  | { type: 'SET_TRY_ON_SUCCESS'; payload: { resultUrl: string; source?: string; isDemoResult?: boolean } }
+  | { type: 'SET_TRY_ON_SUCCESS'; payload: { resultUrl: string; source?: string; isDemoResult?: boolean; aiStylingAdvice?: string | null } }
   | { type: 'SET_TRY_ON_ERROR'; payload: string }
   | { type: 'RESET_TRY_ON' }
   | { type: 'SET_SETUP_COMPLETED'; payload: boolean }
@@ -160,7 +160,8 @@ function appReducer(state: AppState, action: AppAction): AppState {
           resultUrl: action.payload.resultUrl,
           error: null,
           source: action.payload.source ?? 'backend',
-          isDemoResult: Boolean(action.payload.isDemoResult)
+          isDemoResult: Boolean(action.payload.isDemoResult),
+          aiStylingAdvice: action.payload.aiStylingAdvice ?? null
         }
       };
 

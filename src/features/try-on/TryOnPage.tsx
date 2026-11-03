@@ -154,8 +154,9 @@ export function TryOnPage() {
           type: 'SET_TRY_ON_SUCCESS',
           payload: {
             resultUrl: response.resultUrl,
-            source: 'backend',
-            isDemoResult: false
+            source: response.source || 'backend',
+            isDemoResult: false,
+            aiStylingAdvice: response.aiStylingAdvice
           }
         });
         showToast('Virtual try-on completed by backend AI!', 'success');
@@ -237,6 +238,7 @@ export function TryOnPage() {
             outfit={selectedOutfit}
             originalPhotoUrl={photo.previewUrl}
             isDemoResult={tryOn.isDemoResult}
+            aiStylingAdvice={tryOn.aiStylingAdvice}
             onChangePhoto={() => {
               handleResetTryOn();
               const el = document.querySelector('.panel-photo');

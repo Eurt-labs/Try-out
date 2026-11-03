@@ -15,9 +15,78 @@ router = APIRouter(prefix="/api/try-on", tags=["Virtual Try-On"])
 # In-memory storage for virtual try-on asynchronous jobs
 _jobs_store: Dict[str, Dict[str, Any]] = {}
 
-async def generate_with_ai_provider(prompt: str, key: str) -> Optional[str]:
+async def generate_with_gemini_image(prompt: str, key: str) -> Optional[str]:
     """
-    Attempt image generation using direct API key (OpenAI DALL-E / compatible endpoint).
+    Attempt image generation using Google AI Studio Gemini Image models (e.g. gemini-3.1-flash-image-preview).
+    Available when billing/image generation quota is enabled on the AI Studio project.
+    """
+    candidate_models = [
+        "gemini-3.1-flash-image-preview",
+        "gemini-3-pro-image-preview",
+        "gemini-2.5-flash-image"
+    ]
+    for model in candidate_models:
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={key}"
+        payload = {
+            "contents": [
+                {
+                    "parts": [{"text": prompt}]
+                }
+            ]
+        }
+        try:
+            async with httpx.AsyncClient(timeout=25.0) as client:
+                resp = await client.post(url, json=payload, headers={"Content-Type": "application/json"})
+                if resp.status_code == 200:
+                    data = resp.json()
+                    candidates = data.get("candidates", [])
+                    if candidates:
+                        parts = candidates[0].get("content", {}).get("parts", [])
+                        for part in parts:
+                            inline = part.get("inlineData")
+                            if inline and "data" in inline:
+                                mime = inline.get("mimeType", "image/jpeg")
+                                return f"data:{mime};base64,{inline['data']}"
+                else:
+                    logger.debug("Gemini model %s returned status %d: %s", model, resp.status_code, resp.text[:120])
+        except Exception as e:
+            logger.debug("Error generating image with Gemini %s: %s", model, e)
+    return None
+
+async def get_gemini_styling_advice(outfit: dict, key: str) -> Optional[str]:
+    """
+    Generate personalized high-fashion styling advice using Google AI Studio.
+    """
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent?key={key}"
+    prompt = (
+        f"You are an elite personal fashion stylist. Give 2 concise, sophisticated sentences on styling and occasion advice "
+        f"for this piece: {outfit['name']}, category: {outfit.get('category')}, fabric: {outfit.get('fabric', 'luxury fabric')}, "
+        f"fit: {outfit.get('fit', 'tailored fit')}. Focus on footwear, accessories, or layering."
+    )
+    payload = {
+        "contents": [
+            {
+                "parts": [{"text": prompt}]
+            }
+        ]
+    }
+    try:
+        async with httpx.AsyncClient(timeout=10.0) as client:
+            resp = await client.post(url, json=payload, headers={"Content-Type": "application/json"})
+            if resp.status_code == 200:
+                data = resp.json()
+                candidates = data.get("candidates", [])
+                if candidates:
+                    parts = candidates[0].get("content", {}).get("parts", [])
+                    if parts and "text" in parts[0]:
+                        return parts[0]["text"].strip()
+    except Exception as e:
+        logger.warning("Could not fetch Gemini styling advice: %s", e)
+    return None
+
+async def generate_with_openai_image(prompt: str, key: str) -> Optional[str]:
+    """
+    Attempt image generation using direct OpenAI DALL-E endpoint.
     """
     try:
         async with httpx.AsyncClient(timeout=30.0) as client:
@@ -39,9 +108,9 @@ async def generate_with_ai_provider(prompt: str, key: str) -> Optional[str]:
                 if "data" in data and len(data["data"]) > 0:
                     return data["data"][0].get("url")
             else:
-                logger.warning("AI provider responded with code %d: %s", resp.status_code, resp.text)
+                logger.warning("OpenAI provider responded with code %d: %s", resp.status_code, resp.text)
     except Exception as e:
-        logger.warning("Exception during direct AI image generation: %s", e)
+        logger.warning("Exception during OpenAI image generation: %s", e)
     return None
 
 @router.post("", response_model=TryOnResponse)
@@ -73,26 +142,51 @@ async def generate_try_on(
     timestamp = datetime.utcnow().isoformat()
     result_url = outfit["image"]
     source = "backend"
+    styling_advice: Optional[str] = None
 
-    # Check for direct image generation API key
-    ai_key = settings.IMAGE_GENERATION_API_KEY or settings.OPENAI_API_KEY
-    if ai_key:
-        prompt = (
-            f"High-end fashion editorial portrait: A stylish model wearing {outfit['name']}, "
-            f"made of {outfit.get('fabric', 'luxury fabric')}, {outfit.get('fit', 'tailored fit')}, "
-            f"{outfit.get('category', 'fashion')} collection, photorealistic lighting, studio background, 8k resolution."
-        )
-        ai_generated_url = await generate_with_ai_provider(prompt, ai_key)
-        if ai_generated_url:
-            result_url = ai_generated_url
-            source = "ai_generation"
+    # Check for Google AI Studio / Gemini API key
+    gemini_key = settings.GEMINI_API_KEY or settings.GOOGLE_API_KEY
+    if not gemini_key and settings.IMAGE_GENERATION_API_KEY and settings.IMAGE_GENERATION_API_KEY.startswith("AQ."):
+        gemini_key = settings.IMAGE_GENERATION_API_KEY
+
+    # Check for OpenAI key
+    openai_key = settings.OPENAI_API_KEY
+    if not openai_key and settings.IMAGE_GENERATION_API_KEY and settings.IMAGE_GENERATION_API_KEY.startswith("sk-"):
+        openai_key = settings.IMAGE_GENERATION_API_KEY
+
+    prompt = (
+        f"High-end fashion editorial portrait: A stylish model wearing {outfit['name']}, "
+        f"made of {outfit.get('fabric', 'luxury fabric')}, {outfit.get('fit', 'tailored fit')}, "
+        f"{outfit.get('category', 'fashion')} collection, photorealistic lighting, studio background, 8k resolution."
+    )
+
+    if gemini_key:
+        # First try image generation with Gemini
+        ai_img = await generate_with_gemini_image(prompt, gemini_key)
+        if ai_img:
+            result_url = ai_img
+            source = "gemini_image"
+        
+        # Also fetch AI styling advice
+        advice = await get_gemini_styling_advice(outfit, gemini_key)
+        if advice:
+            styling_advice = advice
+            if source == "backend":
+                source = "gemini_styled"
+
+    elif openai_key:
+        ai_img = await generate_with_openai_image(prompt, openai_key)
+        if ai_img:
+            result_url = ai_img
+            source = "openai_image"
 
     # Record job status
     _jobs_store[job_id] = {
         "status": "completed",
         "resultUrl": result_url,
         "outfitId": selected_outfit_id,
-        "timestamp": timestamp
+        "timestamp": timestamp,
+        "aiStylingAdvice": styling_advice
     }
 
     return TryOnResponse(
@@ -100,7 +194,8 @@ async def generate_try_on(
         resultUrl=result_url,
         jobId=job_id,
         source=source,
-        timestamp=timestamp
+        timestamp=timestamp,
+        aiStylingAdvice=styling_advice
     )
 
 @router.get("/status/{job_id}", response_model=TryOnJobStatus)
