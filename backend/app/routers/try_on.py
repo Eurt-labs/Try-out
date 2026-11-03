@@ -55,9 +55,15 @@ async def generate_with_gemini_image(prompt: str, key: str) -> Optional[str]:
 
 async def get_gemini_styling_advice(outfit: dict, key: str) -> Optional[str]:
     """
-    Generate personalized high-fashion styling advice using Google AI Studio.
+    Generate personalized high-fashion styling advice using Google AI Studio,
+    with multi-model fallback and tailored garment styling fallback.
     """
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent?key={key}"
+    candidate_models = [
+        "gemini-2.5-flash-lite",
+        "gemini-3.5-flash-lite",
+        "gemini-3.1-flash-lite-preview",
+        "gemini-flash-latest"
+    ]
     prompt = (
         f"You are an elite personal fashion stylist. Give 2 concise, sophisticated sentences on styling and occasion advice "
         f"for this piece: {outfit['name']}, category: {outfit.get('category')}, fabric: {outfit.get('fabric', 'luxury fabric')}, "
@@ -70,19 +76,27 @@ async def get_gemini_styling_advice(outfit: dict, key: str) -> Optional[str]:
             }
         ]
     }
-    try:
-        async with httpx.AsyncClient(timeout=10.0) as client:
-            resp = await client.post(url, json=payload, headers={"Content-Type": "application/json"})
-            if resp.status_code == 200:
-                data = resp.json()
-                candidates = data.get("candidates", [])
-                if candidates:
-                    parts = candidates[0].get("content", {}).get("parts", [])
-                    if parts and "text" in parts[0]:
-                        return parts[0]["text"].strip()
-    except Exception as e:
-        logger.warning("Could not fetch Gemini styling advice: %s", e)
-    return None
+    for model in candidate_models:
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={key}"
+        try:
+            async with httpx.AsyncClient(timeout=6.0) as client:
+                resp = await client.post(url, json=payload, headers={"Content-Type": "application/json"})
+                if resp.status_code == 200:
+                    data = resp.json()
+                    candidates = data.get("candidates", [])
+                    if candidates:
+                        parts = candidates[0].get("content", {}).get("parts", [])
+                        if parts and "text" in parts[0]:
+                            return parts[0]["text"].strip()
+        except Exception as e:
+            logger.debug("Error getting advice from %s: %s", model, e)
+            continue
+
+    # Tailored stylistic fallback based on garment metadata
+    return (
+        f"Style this {outfit['name']} with minimalist accessories and complementary footwear to accentuate its {outfit.get('fit', 'tailored').lower()} silhouette. "
+        f"The {outfit.get('fabric', 'premium fabric').lower()} drapes naturally, making it an effortless choice for {outfit.get('season', 'all-season').lower()} occasions."
+    )
 
 async def generate_with_openai_image(prompt: str, key: str) -> Optional[str]:
     """
