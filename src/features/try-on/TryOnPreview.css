@@ -1,0 +1,224 @@
+.try-on-panels-wrapper {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+/* Individual Panel */
+.preview-panel {
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+  height: 100%;
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.panel-title-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.panel-step-badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accent-primary);
+}
+
+.panel-heading {
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+/* Stage */
+.panel-content-stage {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 420px;
+  background-color: var(--bg-secondary);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  position: relative;
+  border: 1px solid var(--border-color);
+}
+
+.preview-photo-wrap,
+.preview-outfit-wrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.preview-photo-img,
+.preview-outfit-img {
+  width: 100%;
+  height: 100%;
+  max-height: 480px;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.preview-photo-status-badge {
+  position: absolute;
+  bottom: 0.85rem;
+  left: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.65rem;
+  background-color: rgba(23, 23, 23, 0.75);
+  backdrop-filter: blur(4px);
+  border-radius: var(--radius-full);
+  color: #FFFFFF;
+  font-size: var(--text-xs);
+  font-weight: 600;
+}
+
+.preview-outfit-meta-pill {
+  position: absolute;
+  bottom: 0.85rem;
+  left: 0.85rem;
+  right: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.45rem 0.85rem;
+  background-color: rgba(23, 23, 23, 0.8);
+  backdrop-filter: blur(6px);
+  border-radius: var(--radius-md);
+  color: #FFFFFF;
+  font-size: var(--text-xs);
+  font-weight: 600;
+}
+
+.price-tag {
+  color: #A3E635;
+  font-weight: 700;
+}
+
+/* Empty Dropzone in panel */
+.preview-photo-empty-dropzone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2.5rem 1.5rem;
+  cursor: pointer;
+  height: 100%;
+  width: 100%;
+}
+
+.empty-dropzone-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: var(--accent-subtle);
+  color: var(--accent-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+}
+
+.empty-dropzone-title {
+  font-size: var(--text-base);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.4rem;
+}
+
+.empty-dropzone-desc {
+  font-size: var(--text-xs);
+  color: var(--text-secondary);
+  max-width: 260px;
+  line-height: 1.5;
+  margin-bottom: 1.25rem;
+}
+
+.empty-stage-buttons {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Panel Footer */
+.panel-footer-actions {
+  margin-top: 1.25rem;
+}
+
+.panel-photo-actions-row {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  width: 100%;
+}
+
+.panel-photo-actions-row button {
+  flex: 1;
+}
+
+.panel-footer-tip {
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
+  text-align: center;
+}
+
+.w-full {
+  width: 100%;
+}
+
+/* Center node */
+.panels-linking-node {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.linking-circle {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: var(--accent-subtle);
+  color: var(--accent-primary);
+  border: 1.5px solid var(--accent-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-sm);
+  animation: pulseSubtle 3s infinite ease-in-out;
+}
+
+@media (max-width: 900px) {
+  .try-on-panels-wrapper {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .panels-linking-node {
+    display: none;
+  }
+}
