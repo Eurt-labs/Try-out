@@ -205,3 +205,4 @@ export function PhotoUpload({ compact = false }: PhotoUploadProps) {
     </div>
   );
 }
+

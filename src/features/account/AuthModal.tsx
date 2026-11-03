@@ -165,3 +165,4 @@ export function AuthModal({ isOpen, onClose, initialMode = 'signin' }: AuthModal
     </Modal>
   );
 }
+

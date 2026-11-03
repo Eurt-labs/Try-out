@@ -67,3 +67,4 @@ async def logout(user: AuthenticatedUser = Depends(get_optional_user)):
         "success": True,
         "message": "User session logged out successfully"
     }
+

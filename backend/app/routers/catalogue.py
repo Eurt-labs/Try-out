@@ -43,3 +43,4 @@ async def get_outfit_by_id(outfit_id: str):
     if not found:
         raise HTTPException(status_code=404, detail=f"Outfit with ID '{outfit_id}' not found.")
     return found
+

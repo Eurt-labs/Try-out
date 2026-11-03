@@ -63,3 +63,4 @@ export function GenerationStatus({ outfitName }: GenerationStatusProps) {
     </div>
   );
 }
+

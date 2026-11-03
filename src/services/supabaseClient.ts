@@ -35,3 +35,4 @@ export const supabase: SupabaseClient = isSupabaseConfigured()
       }
     })
   : createFallbackClient();
+

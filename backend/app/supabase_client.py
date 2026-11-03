@@ -189,3 +189,4 @@ async def remove_user_saved_look(user_id: str, look_id: str) -> bool:
     if user_id in _demo_saved_looks:
         _demo_saved_looks[user_id] = [l for l in _demo_saved_looks[user_id] if str(l.get("id")) != str(look_id)]
     return True
+

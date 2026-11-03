@@ -11,7 +11,7 @@ class Settings(BaseSettings):
     PROJECT_NAME: str = "TRY IT OUT Virtual Fashion API"
     VERSION: str = "1.0.0"
     HOST: str = "0.0.0.0"
-    PORT: int = 8000
+    PORT: int = Field(default_factory=lambda: int(os.getenv("PORT", 8000)))
     
     # CORS Origins
     CORS_ORIGINS: List[str] = [
@@ -29,6 +29,11 @@ class Settings(BaseSettings):
     SUPABASE_ANON_KEY: str = Field(default_factory=lambda: os.getenv("SUPABASE_ANON_KEY", ""))
     SUPABASE_SERVICE_ROLE_KEY: str = Field(default_factory=lambda: os.getenv("SUPABASE_SERVICE_ROLE_KEY", ""))
     SUPABASE_JWT_SECRET: str = Field(default_factory=lambda: os.getenv("SUPABASE_JWT_SECRET", ""))
+
+    # Image Generation API Keys
+    IMAGE_GENERATION_API_KEY: str = Field(default_factory=lambda: os.getenv("IMAGE_GENERATION_API_KEY", ""))
+    OPENAI_API_KEY: str = Field(default_factory=lambda: os.getenv("OPENAI_API_KEY", ""))
+    REPLICATE_API_TOKEN: str = Field(default_factory=lambda: os.getenv("REPLICATE_API_TOKEN", ""))
     
     # Storage Directory for Uploads
     UPLOAD_DIR: str = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "uploads")

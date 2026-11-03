@@ -97,3 +97,4 @@ The API will be available at:
 | `GET` | `/api/account/saved-looks` | List saved looks for current user | Yes (Bearer token) |
 | `POST` | `/api/account/saved-looks` | Save a new virtual try-on look | Yes (Bearer token) |
 | `DELETE` | `/api/account/saved-looks/{id}` | Remove a saved look | Yes (Bearer token) |
+

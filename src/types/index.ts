@@ -107,3 +107,4 @@ export interface TryOnApiResponse {
   allowDemoPreview?: boolean;
   timestamp?: string;
 }
+

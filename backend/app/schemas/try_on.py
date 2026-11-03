@@ -17,3 +17,4 @@ class TryOnJobStatus(BaseModel):
     status: str  # 'processing' | 'completed' | 'failed'
     resultUrl: Optional[str] = None
     error: Optional[str] = None
+

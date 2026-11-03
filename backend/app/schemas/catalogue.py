@@ -18,3 +18,4 @@ class CatalogueResponse(BaseModel):
     outfits: List[OutfitSchema]
     categories: List[str]
     source: str = "backend"
+

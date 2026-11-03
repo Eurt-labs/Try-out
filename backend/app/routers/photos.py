@@ -87,3 +87,4 @@ async def get_photo_info(asset_id: str):
         "url": f"/uploads/{filename}",
         "filename": filename
     }
+

@@ -22,3 +22,4 @@ class UserProfileUpdate(BaseModel):
     email: Optional[str] = None
     avatarUrl: Optional[str] = None
     preferences: Optional[UserPreferences] = None
+

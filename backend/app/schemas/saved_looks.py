@@ -23,3 +23,4 @@ class SavedLookResponse(BaseModel):
 class SavedLooksListResponse(BaseModel):
     looks: List[SavedLookResponse]
     source: str = "backend"
+

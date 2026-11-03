@@ -93,3 +93,4 @@ async def get_current_user(
             detail="Authentication credentials were not provided or have expired."
         )
     return user
+

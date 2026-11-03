@@ -8,3 +8,4 @@ export function useApp(): AppContextType {
   }
   return context;
 }
+

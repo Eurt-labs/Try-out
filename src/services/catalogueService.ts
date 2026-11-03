@@ -80,3 +80,4 @@ export const catalogueService = {
     throw new Error(`Outfit with id "${id}" was not found in the collection.`);
   }
 };
+

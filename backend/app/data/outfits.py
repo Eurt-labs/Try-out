@@ -165,3 +165,4 @@ OUTFITS = [
         "tags": ["Chikankari", "Craftsmanship", "Subtle Luxury"]
     }
 ]
+

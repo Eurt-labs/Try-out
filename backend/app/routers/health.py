@@ -11,3 +11,4 @@ async def health_check():
         "version": settings.VERSION,
         "supabase_configured": settings.is_supabase_configured
     }
+

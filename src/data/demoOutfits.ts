@@ -190,3 +190,4 @@ export const DEMO_USER: UserProfile = {
     savedLooks: 5
   }
 };
+

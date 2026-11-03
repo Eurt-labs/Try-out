@@ -107,3 +107,4 @@ export function OutfitCard({ outfit }: OutfitCardProps) {
     </article>
   );
 }
+

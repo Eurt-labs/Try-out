@@ -352,3 +352,4 @@ export function CameraCaptureModal({ isOpen, onClose, onCapture }: CameraCapture
     </div>
   );
 }
+

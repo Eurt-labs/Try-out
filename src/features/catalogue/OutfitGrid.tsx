@@ -181,3 +181,4 @@ export function OutfitGrid({ initialCategory = 'All' }: OutfitGridProps) {
     </section>
   );
 }
+

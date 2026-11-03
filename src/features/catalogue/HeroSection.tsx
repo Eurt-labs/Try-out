@@ -105,3 +105,4 @@ export function HeroSection({ onExploreClick }: HeroSectionProps) {
     </section>
   );
 }
+
