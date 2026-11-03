@@ -11,6 +11,14 @@ node_modules
 dist
 dist-ssr
 *.local
+*.tsbuildinfo
+
+# Python & Backend
+__pycache__/
+*.pyc
+uploads/
+venv/
+.env
 
 # Editor directories and files
 .vscode/*

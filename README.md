@@ -3,125 +3,121 @@
 > **Your Style. Your Look.**  
 > Discover your next look. Try it virtually before you wear it.
 
-A premium, production-grade frontend web application for virtual fashion try-ons. Built with React 19, Vite, React Router DOM, and custom luxury editorial design system.
+A premium, production-grade full-stack virtual fashion platform. Built with **TypeScript**, **React 19**, **Vite**, **FastAPI**, and **Supabase** authentication & account management.
+
+---
+
+## 🛠️ Modern Tech Stack
+
+### Frontend
+- **Language**: **TypeScript** (strictly typed interfaces and component props)
+- **Framework**: React 19 + Vite 8
+- **Routing**: React Router DOM v7
+- **Auth & Storage**: `@supabase/supabase-js`
+- **Icons & Effects**: `lucide-react`, `canvas-confetti`
+- **Styling**: Custom editorial luxury design system (Pure CSS tokens & glassmorphism)
+
+### Backend
+- **Framework**: **FastAPI** (Python 3.10+)
+- **Server**: Uvicorn ASGI
+- **Data & Auth**: **Supabase** (PostgreSQL, Row Level Security, JWT Auth)
+- **Validation**: Pydantic v2
 
 ---
 
 ## 🚀 Quick Start
 
-### 1. Install Dependencies
+### 1. Frontend Setup (TypeScript + Vite)
+
 ```bash
+cd Try-it-out
+
+# Install frontend packages
 npm install
-```
 
-### 2. Configure Environment (Optional)
-The application connects to backend services via `VITE_API_BASE_URL`:
-```bash
-# In .env:
-VITE_API_BASE_URL=http://localhost:8000
-```
-*Note: If the backend service is offline, the frontend provides transparent diagnostics and high-fidelity showcase simulation mode so all UI/UX workflows remain fully testable.*
+# Configure environment variables (optional)
+cp .env.example .env
 
-### 3. Start Development Server
-```bash
+# Start frontend development server
 npm run dev
 ```
 
-### 4. Build for Production
+The frontend will run at `http://localhost:5173`.
+
+### 2. Backend Setup (FastAPI)
+
 ```bash
-npm run build
+cd Try-it-out/backend
+
+# Create virtual environment
+python -m venv venv
+
+# Activate virtual environment
+# Windows:
+.\venv\Scripts\activate
+# macOS/Linux:
+source venv/bin/activate
+
+# Install backend dependencies
+pip install -r requirements.txt
+
+# Configure backend environment (optional)
+cp .env.example .env
+
+# Run FastAPI server
+python run.py
 ```
 
-### 5. Preview Production Build
-```bash
-npm run preview
-```
-
-### 6. Lint Codebase
-```bash
-npm run lint
-```
+The FastAPI backend will run at `http://localhost:8000`:
+- **Interactive Swagger Documentation**: [http://localhost:8000/docs](http://localhost:8000/docs)
+- **Health Check**: [http://localhost:8000/api/health](http://localhost:8000/api/health)
 
 ---
 
-## 🎨 Design System & Color Palette
+## 🔐 Supabase Account Management & Authentication
 
-- **Primary Background**: `#FAF9F6`
-- **Secondary Background**: `#F3F1EC`
-- **Card Background**: `#FFFFFF`
-- **Primary Text**: `#171717`
-- **Secondary Text**: `#737373`
-- **Primary Accent**: `#7357E8` (Royal Purple)
-- **Accent Hover**: `#6044CF`
-- **Borders**: `#EAE8E3`
-- **Success**: `#16A36A`
-- **Error**: `#DC4545`
-- **Typography**: Plus Jakarta Sans & Inter
+The platform provides end-to-end account management powered by **Supabase**:
+1. **User Sign Up & Sign In**: Secure email/password authentication with automatic session refresh.
+2. **Profile Management**: Customize display name, style preferences, and avatar stored in Supabase `profiles` table.
+3. **Saved Looks Sync**: Save and organize favorite try-on results linked to your Supabase user ID with Row Level Security (RLS).
+4. **FastAPI JWT Authentication**: The frontend automatically passes the Supabase Bearer token to backend requests (`Authorization: Bearer <token>`).
+
+### Database Setup
+To set up your Supabase project tables, run `backend/schema.sql` in your Supabase project SQL Editor.
 
 ---
 
 ## 📱 Application Screens
 
 1. **Main Catalogue (`/`)**
-   - Brand Navigation with photo readiness indicator & mobile drawer
-   - Editorial Hero Section with quick explore CTA & metrics
-   - "Start With Your Photo" drag & drop upload station with client validation
-   - "Explore Your Next Look" responsive outfit grid (4 cols desktop, 2-3 cols tablet, 1-2 mobile)
+   - Editorial Hero Section with metrics and quick explore CTA
+   - Photo Upload station with webcam camera support and client validation
    - Category filtering (`All`, `Casual`, `Formal`, `Traditional`, `Streetwear`, `Party Wear`)
-   - Real-time outfit search with debounced filtering & empty states
-   - Luxury Footer with platform links, data policies & feature guarantees
+   - Real-time outfit search with live backend sync
 
 2. **Virtual Try-On Workspace (`/try-on/:outfitId`)**
-   - Side-by-side balanced panels:
-     - **Panel 01**: User photograph preview, silhouette status, replace/remove photo
-     - **Panel 02**: Selected outfit, category badge, change outfit action
-   - **State 1 — Ready**: Generates look once photo and outfit are locked in
-   - **State 2 — Generating**: Rotating status indicators, AI scanline orb, prevents duplicate submissions
-   - **State 3 — Success**: Actual generated image, side-by-side comparison, fabric details, celebratory confetti, download look, save to my looks
-   - **State 4 — Error**: Clear error description, Retry button, showcase simulation fallback
+   - Side-by-side balanced panels: User photograph preview & selected outfit
+   - 4-stage state machine: Ready → Generating (AI Scanline) → Success (Side-by-side & Confetti) → Error / Offline Fallback
 
-3. **How It Works (`/how-it-works`)**
-   - 4-step interactive walkthrough with step numbering and editorial illustrations:
-     1. Upload Your Photo
-     2. Explore Outfits
-     3. Choose Your Outfit
-     4. See Your New Look
-   - Photography quality recommendations (lighting, pose, background, privacy)
-   - "Ready to find your next look?" CTA
-
-4. **First-Time Setup (`/setup`)**
-   - 4-step onboarding flow: Welcome → Upload → Preview & Confirm Checklist → Completion
-   - Returning user detection
-   - Quality checklist recommendations
-
-5. **Account Window (`/account`)**
+3. **Account Management (`/account`)**
+   - Supabase authentication modal (Sign In / Create Account)
    - Profile header with tier badge, avatar, and sign out
    - Tabbed management: Personal Information, My Photo, Saved Looks, and Preferences
 
+4. **How It Works (`/how-it-works`)**
+   - 4-step interactive walkthrough with photography guidelines
+
+5. **First-Time Setup (`/setup`)**
+   - Onboarding flow with quality checklist recommendations
+
 ---
 
-## 📁 Architecture Overview
+## 🏗️ Production Build
 
-```
-src/
-├── app/                  # Application root, routing & shell
-│   ├── App.jsx
-│   └── AppRoutes.jsx
-├── components/
-│   ├── common/           # Button, Badge, Loader, Skeleton, Toast, Modal, States
-│   └── layout/           # Navbar, Footer, PageLayout
-├── context/              # React Context & useReducer global state
-│   └── AppContext.jsx
-├── data/                 # Curated showcase outfits & demo profiles
-│   └── demoOutfits.js
-├── features/
-│   ├── catalogue/        # Hero, Grid, Cards, Filters
-│   ├── photo-upload/     # Drag & drop upload, preview & validation
-│   ├── try-on/           # Dual-panel studio, generating states, results
-│   ├── how-it-works/     # 4-step walkthrough & photography tips
-│   ├── setup/            # First-time onboarding wizard
-│   └── account/          # Profile, saved looks & preferences
-├── hooks/                # useApp, usePhotoUpload custom hooks
-├── services/             # API client, catalogue, photo, tryOn & account services
-└── styles/               # CSS variables, animations, global resets, utilities
+```bash
+# Build TypeScript frontend
+npm run build
+
+# Preview production bundle
+npm run preview
 ```
