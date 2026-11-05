@@ -236,6 +236,7 @@
   .hiw-steps-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+
   .tips-grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -245,9 +246,11 @@
   .hiw-steps-grid {
     grid-template-columns: 1fr;
   }
+
   .tips-grid {
     grid-template-columns: 1fr;
   }
+
   .hiw-cta-box {
     padding: 1.75rem;
   }
