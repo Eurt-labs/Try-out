@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Camera, Compass, Shirt, Wand2, ArrowRight, CheckCircle2, Sparkles, Sun, Eye, ShieldCheck, LucideIcon } from 'lucide-react';
+import { Camera, Compass, Shirt, Layers, ArrowRight, CheckCircle2, Sun, Eye, ShieldCheck, LucideIcon } from 'lucide-react';
 import { Button } from '../../components/common/Button';
 import './HowItWorksPage.css';
 
@@ -17,39 +17,39 @@ interface StepItem {
 const STEPS: StepItem[] = [
   {
     step: '01',
-    title: 'Upload Your Photo',
-    subtitle: 'Start with a clear portrait',
-    description: 'Start by uploading a clear photograph of yourself. Our system maps your posture, shoulder width, and silhouette to create your personalized virtual avatar.',
+    title: 'Upload Silhouette',
+    subtitle: 'Clear portrait reference',
+    description: 'Provide a clear photograph of yourself. Our system maps your posture, shoulder width, and silhouette to create your personalized fitting reference.',
     icon: Camera,
     image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=800&q=80',
-    highlight: 'Front-facing, clear lighting'
+    highlight: 'Front-facing portrait, natural posture'
   },
   {
     step: '02',
-    title: 'Explore Outfits',
-    subtitle: 'Browse diverse designer styles',
-    description: 'Browse different clothing styles and explore the available collection. Filter by casual wear, sharp business suits, traditional apparel, or evening statements.',
+    title: 'Explore Collections',
+    subtitle: 'Browse curated styles',
+    description: 'Browse tailored apparel across casual wear, structured suiting, traditional collections, or evening outerwear.',
     icon: Compass,
     image: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=800&q=80',
-    highlight: 'Curated fashion categories'
+    highlight: 'Curated studio garments'
   },
   {
     step: '03',
-    title: 'Choose Your Outfit',
-    subtitle: 'Pick what matches your style',
-    description: 'Select the outfit you would like to see on yourself. Inspect garment details, premium fabrics, cut profiles, and seasonal versatility.',
+    title: 'Select Garment',
+    subtitle: 'Inspect cuts and fabrics',
+    description: 'Choose any outfit from the catalogue to see its tailored drape on your silhouette. Review cut specifications and luxury fabrics.',
     icon: Shirt,
     image: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=800&q=80',
-    highlight: 'Instant studio alignment'
+    highlight: 'Detailed material specifications'
   },
   {
     step: '04',
-    title: 'See Your New Look',
-    subtitle: 'Experience realistic AI drape',
-    description: 'Generate your virtual preview and discover how the outfit looks on you. Neural physics render cloth folds, shadows, and body contours seamlessly.',
-    icon: Wand2,
+    title: 'Preview Digital Fit',
+    subtitle: 'Natural fabric drape',
+    description: 'Generate your digital fitting preview and inspect how the garment contours to your frame, complete with editorial pairing advice.',
+    icon: Layers,
     image: 'https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=800&q=80',
-    highlight: 'Photorealistic AI render'
+    highlight: 'Side-by-side comparison'
   }
 ];
 
@@ -72,12 +72,12 @@ const PHOTO_TIPS: PhotoTipItem[] = [
   },
   {
     title: 'Uncluttered Background',
-    desc: 'A plain wall or minimal background helps edge detection isolate your contours cleanly.',
-    icon: Sparkles
+    desc: 'A plain wall or minimal background helps isolate your contours cleanly.',
+    icon: Layers
   },
   {
     title: 'Session Privacy',
-    desc: 'Your photos are only used to render your active try-on session and never sold or shared.',
+    desc: 'Your photos are only used to render your active try-on session and remain under your control.',
     icon: ShieldCheck
   }
 ];
@@ -89,13 +89,13 @@ export function HowItWorksPage() {
       <section className="hiw-hero-section">
         <div className="container text-center">
           <div className="accent-pill" style={{ margin: '0 auto 1.25rem' }}>
-            <Sparkles size={13} /> Intuitive 4-Step Process
+            Process Overview
           </div>
           <h1 className="hiw-main-heading">
-            How Try It Out Works
+            How The Digital Studio Works
           </h1>
           <p className="hiw-main-desc">
-            Skip the fitting room queues. Discover how simple it is to virtually test designer clothing with modern AI.
+            Skip the fitting room queues. Discover how simple it is to test curated designer clothing with modern digital fitting technology.
           </p>
         </div>
       </section>
@@ -107,7 +107,7 @@ export function HowItWorksPage() {
             {STEPS.map((step, idx) => {
               const IconComp = step.icon;
               return (
-                <div key={step.step} className="step-card card-premium animate-fade-up" style={{ animationDelay: `${idx * 120}ms` }}>
+                <div key={step.step} className="step-card card-premium animate-fade-up" style={{ animationDelay: `${idx * 100}ms` }}>
                   <div className="step-card-image-wrap">
                     <img src={step.image} alt={step.title} className="step-card-img" />
                     <div className="step-number-badge">
@@ -117,7 +117,7 @@ export function HowItWorksPage() {
 
                   <div className="step-card-body">
                     <div className="step-card-icon-pill">
-                      <IconComp size={16} />
+                      <IconComp size={14} />
                       <span>{step.subtitle}</span>
                     </div>
 
@@ -125,7 +125,7 @@ export function HowItWorksPage() {
                     <p className="step-card-desc">{step.description}</p>
 
                     <div className="step-card-highlight">
-                      <CheckCircle2 size={14} className="text-success" />
+                      <CheckCircle2 size={13} className="text-success" />
                       <span>{step.highlight}</span>
                     </div>
                   </div>
@@ -140,9 +140,9 @@ export function HowItWorksPage() {
       <section className="hiw-tips-section" id="tips">
         <div className="container">
           <div className="tips-header text-center">
-            <h2 className="tips-title">Keys to a Flawless Virtual Try-On</h2>
+            <h2 className="tips-title">Keys to an Accurate Digital Fitting</h2>
             <p className="tips-desc">
-              Following these simple photography guidelines ensures our model synthesizes clean drapery and exact proportions.
+              Following these simple photography guidelines ensures clean drapery and exact proportions.
             </p>
           </div>
 
@@ -152,7 +152,7 @@ export function HowItWorksPage() {
               return (
                 <div key={tip.title} className="tip-card card-premium">
                   <div className="tip-icon-box">
-                    <TipIcon size={22} />
+                    <TipIcon size={20} />
                   </div>
                   <h4 className="tip-title">{tip.title}</h4>
                   <p className="tip-text">{tip.desc}</p>
@@ -168,7 +168,7 @@ export function HowItWorksPage() {
         <div className="container">
           <div className="hiw-cta-box card-premium">
             <div className="hiw-cta-content">
-              <span className="accent-pill">Ready to begin?</span>
+              <span className="accent-pill">Catalogue Ready</span>
               <h2 className="hiw-cta-headline">Ready to find your next look?</h2>
               <p className="hiw-cta-subtext">
                 Browse our curated wardrobe and preview yourself in luxury outfits within seconds.
@@ -176,7 +176,7 @@ export function HowItWorksPage() {
             </div>
             <Link to="/">
               <Button variant="primary" size="lg" icon={ArrowRight} iconPosition="right">
-                Start Exploring
+                Explore Catalogue
               </Button>
             </Link>
           </div>
@@ -185,4 +185,3 @@ export function HowItWorksPage() {
     </div>
   );
 }
-

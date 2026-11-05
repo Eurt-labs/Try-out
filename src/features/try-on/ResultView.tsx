@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import confetti from 'canvas-confetti';
-import { Sparkles, Download, Bookmark, ArrowLeft, RefreshCw, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Download, Bookmark, ArrowLeft, RefreshCw, AlertCircle } from 'lucide-react';
 import { useApp } from '../../hooks/useApp';
 import { Button } from '../../components/common/Button';
 import { Outfit } from '../../types';
@@ -29,20 +28,6 @@ export function ResultView({
   const [activeTab, setActiveTab] = useState<'result' | 'compare' | 'garment'>('result');
   const [isSaved, setIsSaved] = useState<boolean>(false);
 
-  useEffect(() => {
-    // Celebratory confetti burst
-    try {
-      confetti({
-        particleCount: 50,
-        spread: 60,
-        origin: { y: 0.65 },
-        colors: ['#7357E8', '#16A36A', '#F3F1EC']
-      });
-    } catch {
-      // Ignore if confetti is unsupported
-    }
-  }, []);
-
   const handleSaveLook = () => {
     if (!outfit) return;
     saveLook({
@@ -59,17 +44,18 @@ export function ResultView({
       })
     });
     setIsSaved(true);
+    showToast('Look saved to your studio archive', 'success');
   };
 
   const handleDownload = () => {
     try {
       const link = document.createElement('a');
       link.href = resultUrl;
-      link.download = `try-it-out-${outfit?.name ? outfit.name.toLowerCase().replace(/\s+/g, '-') : 'look'}.jpg`;
+      link.download = `fitting-${outfit?.name ? outfit.name.toLowerCase().replace(/\s+/g, '-') : 'look'}.jpg`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-      showToast('Look saved to your downloads folder', 'success');
+      showToast('Image downloaded to your device', 'success');
     } catch {
       showToast('Unable to download image automatically. Right-click to save.', 'info');
     }
@@ -80,9 +66,9 @@ export function ResultView({
       {/* Top Banner if Demo Result */}
       {isDemoResult && (
         <div className="demo-notice-banner" role="status">
-          <AlertCircle size={16} />
+          <AlertCircle size={15} />
           <span>
-            <strong>Showcase Preview Mode:</strong> Backend server at VITE_API_BASE_URL is offline. Displaying high-fidelity virtual demonstration preview.
+            <strong>Showcase Preview Mode:</strong> Backend server unreachable. Displaying reference digital garment preview.
           </span>
         </div>
       )}
@@ -90,12 +76,12 @@ export function ResultView({
       {/* Result Card Header */}
       <div className="result-header">
         <div className="result-header-text">
-          <div className="accent-pill success-pill">
-            <CheckCircle2 size={13} /> Generation Complete
+          <div className="accent-pill">
+            Fitting Complete
           </div>
-          <h2 className="result-title">Your New Look is Ready!</h2>
+          <h2 className="result-title">Digital Fitting Preview</h2>
           <p className="result-subtext">
-            Here is your AI virtual fitting preview for <strong>{outfit?.name}</strong>.
+            Calibrated silhouette for <strong>{outfit?.name}</strong>.
           </p>
         </div>
 
@@ -106,7 +92,7 @@ export function ResultView({
             className={`switcher-tab ${activeTab === 'result' ? 'switcher-tab-active' : ''}`}
             onClick={() => setActiveTab('result')}
           >
-            Virtual Look
+            Digital Look
           </button>
           <button
             type="button"
@@ -125,27 +111,11 @@ export function ResultView({
         </div>
       </div>
 
-      {/* Gemini AI Stylist Commentary */}
+      {/* Minimal Studio Styling Notes */}
       {aiStylingAdvice && (
-        <div style={{
-          margin: '0.5rem 0 1.25rem 0',
-          padding: '1rem 1.25rem',
-          borderRadius: '12px',
-          background: 'linear-gradient(135deg, rgba(115, 87, 232, 0.08), rgba(22, 163, 106, 0.06))',
-          border: '1px solid rgba(115, 87, 232, 0.25)',
-          display: 'flex',
-          gap: '0.85rem',
-          alignItems: 'flex-start'
-        }}>
-          <Sparkles size={18} style={{ color: '#7357E8', marginTop: '2px', flexShrink: 0 }} />
-          <div>
-            <div style={{ fontSize: '0.78rem', fontWeight: 700, color: '#7357E8', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-              Gemini AI Stylist Recommendation
-            </div>
-            <div style={{ fontSize: '0.92rem', color: '#1e293b', marginTop: '0.25rem', lineHeight: 1.55 }}>
-              {aiStylingAdvice}
-            </div>
-          </div>
+        <div className="styling-notes-card">
+          <span className="styling-notes-label">STUDIO PAIRING & FIT NOTES</span>
+          <p className="styling-notes-text">{aiStylingAdvice}</p>
         </div>
       )}
 
@@ -159,7 +129,7 @@ export function ResultView({
               className="result-main-img"
             />
             <div className="result-watermark-pill">
-              <Sparkles size={13} /> TRY IT OUT AI
+              DIGITAL FITTING ROOM
             </div>
           </div>
         )}
@@ -167,15 +137,15 @@ export function ResultView({
         {activeTab === 'compare' && (
           <div className="result-compare-grid animate-fade-in">
             <div className="compare-card">
-              <span className="compare-label">Original Photo</span>
+              <span className="compare-label">Silhouette Reference</span>
               <div className="compare-img-wrap">
                 <img src={originalPhotoUrl || ''} alt="Original uploaded portrait" className="compare-img" />
               </div>
             </div>
             <div className="compare-card highlight">
-              <span className="compare-label accent">Generated Look</span>
+              <span className="compare-label">Fitted Look</span>
               <div className="compare-img-wrap">
-                <img src={resultUrl} alt="AI Virtual Fit" className="compare-img" />
+                <img src={resultUrl} alt="Fitted garment" className="compare-img" />
               </div>
             </div>
           </div>
@@ -228,7 +198,7 @@ export function ResultView({
             onClick={handleSaveLook}
             disabled={isSaved}
           >
-            {isSaved ? 'Saved in Account' : 'Save to My Looks'}
+            {isSaved ? 'Saved in Archive' : 'Save to Archive'}
           </Button>
         </div>
 
@@ -239,7 +209,7 @@ export function ResultView({
             icon={RefreshCw}
             onClick={onChangePhoto}
           >
-            Change Photo
+            Change Silhouette
           </Button>
 
           <Button
@@ -255,4 +225,3 @@ export function ResultView({
     </div>
   );
 }
-

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Sparkles, Camera, CheckCircle2, ArrowRight, ArrowLeft, Shield, RefreshCw, Trash2 } from 'lucide-react';
+import { Layers, Camera, CheckCircle2, ArrowRight, ArrowLeft, Shield, RefreshCw, Trash2, Check } from 'lucide-react';
 import { useApp } from '../../hooks/useApp';
 import { PhotoUpload } from '../photo-upload/PhotoUpload';
 import { Button } from '../../components/common/Button';
@@ -72,30 +72,30 @@ export function SetupPage() {
         {currentStep === 'welcome' && (
           <div className="setup-card card-premium animate-fade-scale text-center">
             <div className="setup-icon-halo">
-              <Sparkles size={36} className="text-accent" />
+              <Layers size={28} className="text-primary" />
             </div>
 
             <div className="accent-pill" style={{ margin: '0 auto 1.25rem' }}>
-              First-Time Setup
+              PROFILE ONBOARDING
             </div>
 
-            <h1 className="setup-heading">Welcome to Try It Out.</h1>
+            <h1 className="setup-heading">Welcome to Studio Fitting.</h1>
             <p className="setup-description">
-              Get ready to discover a new way to explore your style. In just two quick steps, set up your personal virtual fitting profile so you can visualize any garment on your body instantly.
+              Set up your personal silhouette in two precise steps to visualize bespoke pieces and tailored looks on your body.
             </p>
 
             <div className="setup-benefits-row">
               <div className="benefit-item">
-                <Camera size={18} className="text-accent" />
-                <span>Upload Once</span>
+                <Camera size={16} className="text-secondary" />
+                <span>Single Profile Photo</span>
               </div>
               <div className="benefit-item">
-                <Sparkles size={18} className="text-accent" />
-                <span>Try Any Outfit</span>
+                <Layers size={16} className="text-secondary" />
+                <span>Adaptive Fit Mapping</span>
               </div>
               <div className="benefit-item">
-                <Shield size={18} className="text-accent" />
-                <span>Private & Secure</span>
+                <Shield size={16} className="text-secondary" />
+                <span>Client Privacy Protected</span>
               </div>
             </div>
 
@@ -107,7 +107,7 @@ export function SetupPage() {
                 icon={ArrowRight}
                 iconPosition="right"
               >
-                Let's Get Started
+                Begin Setup
               </Button>
             </div>
           </div>
@@ -252,24 +252,24 @@ export function SetupPage() {
         {/* STEP: FINISH SETUP */}
         {currentStep === 'complete' && (
           <div className="setup-card card-premium animate-fade-scale text-center">
-            <div className="setup-icon-halo success">
-              <CheckCircle2 size={40} className="text-success" />
+            <div className="setup-icon-halo">
+              <CheckCircle2 size={32} className="text-primary" />
             </div>
 
-            <div className="accent-pill success-pill" style={{ margin: '0 auto 1.25rem' }}>
-              Ready to Style
+            <div className="accent-pill" style={{ margin: '0 auto 1.25rem' }}>
+              PROFILE CONFIRMED
             </div>
 
-            <h1 className="setup-heading">You're All Set!</h1>
+            <h1 className="setup-heading">Silhouette Calibrated.</h1>
             <p className="setup-description">
-              Your photo is ready. Explore outfits and start your virtual try-on experience.
+              Your portrait is registered. Explore the collection to preview bespoke tailoring and styles.
             </p>
 
             {photo.previewUrl && (
               <div className="complete-photo-thumbnail">
                 <img src={photo.previewUrl} alt="Confirmed setup portrait" className="thumb-circle" />
                 <div className="complete-thumb-badge">
-                  <Sparkles size={12} /> Ready
+                  <Check size={11} /> READY
                 </div>
               </div>
             )}

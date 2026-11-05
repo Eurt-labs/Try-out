@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Sparkles, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { useApp } from '../../hooks/useApp';
 import { Badge } from '../../components/common/Badge';
 import { Outfit } from '../../types';
@@ -62,8 +62,8 @@ export function OutfitCard({ outfit }: OutfitCardProps) {
 
         {/* Hover Quick Try-On Overlay Pill */}
         <div className="outfit-overlay-pill">
-          <Sparkles size={14} className="sparkle-icon-animated" />
-          <span>Click to Try On</span>
+          <span>Fitting Room</span>
+          <ArrowRight size={13} />
         </div>
       </div>
 
@@ -80,7 +80,7 @@ export function OutfitCard({ outfit }: OutfitCardProps) {
 
         {outfit.fabric && (
           <p className="outfit-fabric-detail">
-            {outfit.fabric} • {outfit.fit || 'Regular Fit'}
+            {outfit.fabric} • {outfit.fit || 'Tailored'}
           </p>
         )}
 
@@ -98,13 +98,11 @@ export function OutfitCard({ outfit }: OutfitCardProps) {
             onClick={handleTryOnClick}
             aria-label={`Try on ${outfit.name}`}
           >
-            <Sparkles size={16} />
-            <span>Try This Outfit</span>
-            <ArrowRight size={15} className="arrow-icon-shift" />
+            <span>Virtual Try-On</span>
+            <ArrowRight size={14} className="arrow-icon-shift" />
           </button>
         </div>
       </div>
     </article>
   );
 }
-

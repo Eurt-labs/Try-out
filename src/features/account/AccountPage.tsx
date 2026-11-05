@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { User, Camera, Bookmark, Sliders, LogOut, ArrowRight, Mail, Trash2, LogIn, Sparkles, CheckCircle2 } from 'lucide-react';
+import { User, Camera, Bookmark, Sliders, LogOut, ArrowRight, Mail, Trash2, LogIn, CheckCircle2 } from 'lucide-react';
 import { useApp } from '../../hooks/useApp';
 import { useAuth } from '../../hooks/useAuth';
 import { accountService } from '../../services/accountService';

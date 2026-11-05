@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { UploadCloud, Image as ImageIcon, Camera, CheckCircle2, AlertCircle, RefreshCw, Trash2, Sparkles } from 'lucide-react';
+import { UploadCloud, Image as ImageIcon, Camera, CheckCircle2, AlertCircle, RefreshCw, Trash2 } from 'lucide-react';
 import { usePhotoUpload } from '../../hooks/usePhotoUpload';
 import { Button } from '../../components/common/Button';
 import { CameraCaptureModal } from '../../components/common/CameraCaptureModal';
@@ -164,7 +164,7 @@ export function PhotoUpload({ compact = false }: PhotoUploadProps) {
                 </h4>
               </div>
               <span className="active-photo-status-pill">
-                <Sparkles size={12} /> Active in Session
+                Active Reference
               </span>
             </div>
 

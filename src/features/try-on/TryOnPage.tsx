@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, ChangeEvent } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { Sparkles, ArrowLeft, Wand2, AlertCircle } from 'lucide-react';
+import { ArrowLeft, ArrowRight, AlertCircle } from 'lucide-react';
 import { useApp } from '../../hooks/useApp';
 import { catalogueService } from '../../services/catalogueService';
 import { tryOnService } from '../../services/tryOnService';
@@ -271,10 +271,10 @@ export function TryOnPage() {
                   <Button
                     variant="primary"
                     size="md"
-                    icon={Sparkles}
+                    icon={ArrowRight}
                     onClick={() => handleGenerateLook(true)}
                   >
-                    Run Showcase Simulation
+                    Run Preview Simulation
                   </Button>
                   <Button
                     variant="ghost"
@@ -301,11 +301,11 @@ export function TryOnPage() {
             {/* Prominent Generate CTA Bar */}
             <div className="generate-cta-bar card-premium">
               <div className="generate-cta-info">
-                <span className="generate-cta-title">Ready to fit your outfit</span>
+                <span className="generate-cta-title">Ready to tailor silhouette</span>
                 <p className="generate-cta-desc">
                   {photo.previewUrl
-                    ? 'Your silhouette is aligned. Click generate to start the neural render.'
-                    : 'Please provide a photograph in Panel 01 to unlock the virtual fitting.'}
+                    ? 'Silhouette reference is configured. Start the digital fitting preview.'
+                    : 'Please provide a silhouette photograph in Panel 01 to unlock the virtual fitting.'}
                 </p>
               </div>
 
@@ -315,10 +315,11 @@ export function TryOnPage() {
                   size="lg"
                   disabled={!isReadyToGenerate}
                   onClick={() => handleGenerateLook(false)}
-                  icon={Wand2}
+                  icon={ArrowRight}
+                  iconPosition="right"
                   className="btn-generate-main"
                 >
-                  Generate My Look
+                  Tailor & Preview Fitting
                 </Button>
               </div>
             </div>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mail, Lock, User, Sparkles, AlertCircle, ArrowRight } from 'lucide-react';
+import { Mail, Lock, User, ShieldCheck, AlertCircle, ArrowRight } from 'lucide-react';
 import { Modal } from '../../components/common/Modal';
 import { Button } from '../../components/common/Button';
 import { useAuth } from '../../hooks/useAuth';
@@ -58,9 +58,9 @@ export function AuthModal({ isOpen, onClose, initialMode = 'signin' }: AuthModal
       <div className="auth-modal-content">
         {!isConfigured && (
           <div className="demo-notice-banner mb-4" style={{ marginBottom: '1.25rem' }}>
-            <Sparkles size={16} />
+            <ShieldCheck size={16} />
             <span>
-              <strong>Supabase Showcase:</strong> Supabase API keys can be configured in <code>.env</code>. You can test authentication right now in demonstration mode.
+              <strong>Supabase Mode:</strong> Configure Supabase API keys in <code>.env</code> for persistent remote sync, or sign in locally.
             </span>
           </div>
         )}
@@ -68,16 +68,16 @@ export function AuthModal({ isOpen, onClose, initialMode = 'signin' }: AuthModal
         <div className="auth-tab-switch" style={{ display: 'flex', gap: '0.5rem', marginBottom: '1.5rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.5rem' }}>
           <button
             type="button"
-            className={`btn-tab ${mode === 'signin' ? 'text-accent font-semibold' : 'text-secondary'}`}
-            style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0.5rem 1rem', borderBottom: mode === 'signin' ? '2px solid var(--accent-primary)' : 'none' }}
+            className={`btn-tab ${mode === 'signin' ? 'text-primary font-semibold' : 'text-secondary'}`}
+            style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0.5rem 1rem', borderBottom: mode === 'signin' ? '2px solid var(--text-primary)' : 'none', color: mode === 'signin' ? 'var(--text-primary)' : 'var(--text-secondary)' }}
             onClick={() => { setMode('signin'); setErrorMessage(null); }}
           >
             Sign In
           </button>
           <button
             type="button"
-            className={`btn-tab ${mode === 'signup' ? 'text-accent font-semibold' : 'text-secondary'}`}
-            style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0.5rem 1rem', borderBottom: mode === 'signup' ? '2px solid var(--accent-primary)' : 'none' }}
+            className={`btn-tab ${mode === 'signup' ? 'text-primary font-semibold' : 'text-secondary'}`}
+            style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0.5rem 1rem', borderBottom: mode === 'signup' ? '2px solid var(--text-primary)' : 'none', color: mode === 'signup' ? 'var(--text-primary)' : 'var(--text-secondary)' }}
             onClick={() => { setMode('signup'); setErrorMessage(null); }}
           >
             Create Account

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink, Link } from 'react-router-dom';
-import { Sparkles, Menu, X, User, Camera, Check } from 'lucide-react';
+import { Menu, X, User, Camera, Check } from 'lucide-react';
 import { useApp } from '../../hooks/useApp';
 import { useAuth } from '../../hooks/useAuth';
 import './Navbar.css';
@@ -13,7 +13,7 @@ export function Navbar() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 15);
+      setScrolled(window.scrollY > 10);
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
@@ -26,10 +26,10 @@ export function Navbar() {
   const navLinks = [
     { to: '/', label: 'Catalogue' },
     { to: '/how-it-works', label: 'How It Works' },
-    { to: '/account', label: 'Account' }
+    { to: '/account', label: 'Studio & Looks' }
   ];
 
-  const displayName = profile?.name || authUser?.email?.split('@')[0] || 'User';
+  const displayName = profile?.name || authUser?.email?.split('@')[0] || 'Account';
   const displayAvatar = profile?.avatarUrl;
 
   return (
@@ -38,11 +38,11 @@ export function Navbar() {
         {/* Brand Logo */}
         <Link to="/" className="brand-logo" aria-label="TRY IT OUT Homepage">
           <div className="brand-mark">
-            <Sparkles size={18} className="brand-sparkle" />
+            <span className="brand-monogram">T·O</span>
           </div>
           <div className="brand-titles">
             <span className="brand-name">TRY IT OUT</span>
-            <span className="brand-tagline">VIRTUAL FASHION</span>
+            <span className="brand-tagline">DIGITAL FITTING ROOM</span>
           </div>
         </Link>
 
@@ -69,17 +69,17 @@ export function Navbar() {
         <div className="navbar-actions">
           {/* Photo Readiness Pill */}
           {photo.previewUrl ? (
-            <Link to="/try-on/outfit-01" className="nav-photo-pill" title="Photo ready for try-on">
+            <Link to="/try-on/outfit-01" className="nav-photo-pill" title="Portrait loaded for virtual fitting">
               <span className="nav-photo-thumb-wrap">
-                <img src={photo.previewUrl} alt="Your active photo" className="nav-photo-thumb" />
-                <span className="nav-photo-check"><Check size={10} /></span>
+                <img src={photo.previewUrl} alt="Active silhouette reference" className="nav-photo-thumb" />
+                <span className="nav-photo-check"><Check size={9} /></span>
               </span>
-              <span className="nav-photo-text">Photo Ready</span>
+              <span className="nav-photo-text">Silhouette Active</span>
             </Link>
           ) : (
             <Link to="/setup" className="nav-setup-link">
-              <Camera size={15} />
-              <span>Add Photo</span>
+              <Camera size={14} />
+              <span>Add Silhouette</span>
             </Link>
           )}
 
@@ -89,7 +89,7 @@ export function Navbar() {
               <img src={displayAvatar} alt={displayName} className="nav-avatar-img" />
             ) : (
               <div className="nav-avatar-fallback">
-                <User size={18} />
+                <User size={16} />
               </div>
             )}
           </Link>
@@ -98,43 +98,48 @@ export function Navbar() {
           <button
             className="mobile-toggle-btn"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+            aria-label="Toggle mobile menu"
             aria-expanded={mobileMenuOpen}
           >
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Drawer */}
+      {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="mobile-drawer animate-fade-down" aria-label="Mobile Navigation">
-          <ul className="mobile-nav-list">
-            {navLinks.map((link) => (
-              <li key={link.to}>
-                <NavLink
-                  to={link.to}
+        <div className="mobile-menu-drawer animate-fade-in" role="dialog" aria-modal="true">
+          <nav className="mobile-nav">
+            <ul className="mobile-nav-list">
+              {navLinks.map((link) => (
+                <li key={link.to}>
+                  <NavLink
+                    to={link.to}
+                    className={({ isActive }) =>
+                      `mobile-nav-link ${isActive ? 'mobile-nav-link-active' : ''}`
+                    }
+                    onClick={closeMobileMenu}
+                    end={link.to === '/'}
+                  >
+                    {link.label}
+                  </NavLink>
+                </li>
+              ))}
+              <li className="mobile-nav-divider"></li>
+              <li>
+                <Link
+                  to="/setup"
+                  className="mobile-nav-link mobile-nav-setup"
                   onClick={closeMobileMenu}
-                  className={({ isActive }) =>
-                    `mobile-nav-link ${isActive ? 'mobile-nav-link-active' : ''}`
-                  }
-                  end={link.to === '/'}
                 >
-                  {link.label}
-                </NavLink>
+                  <Camera size={16} />
+                  <span>Update Fitting Photo</span>
+                </Link>
               </li>
-            ))}
-            <li className="mobile-nav-divider"></li>
-            <li>
-              <NavLink to="/setup" onClick={closeMobileMenu} className="mobile-nav-link">
-                <Camera size={16} />
-                <span>{photo.previewUrl ? 'Manage Photo' : 'First-time Setup'}</span>
-              </NavLink>
-            </li>
-          </ul>
+            </ul>
+          </nav>
         </div>
       )}
     </header>
   );
 }
-

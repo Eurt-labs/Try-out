@@ -1,6 +1,6 @@
 import React, { useRef, useState, ChangeEvent } from 'react';
 import { Link } from 'react-router-dom';
-import { Camera, CheckCircle2, AlertCircle, RefreshCw, ArrowLeft, Shirt, Sparkles, UploadCloud, Image as ImageIcon } from 'lucide-react';
+import { Camera, CheckCircle2, AlertCircle, RefreshCw, ArrowLeft, Shirt, Plus, UploadCloud, Image as ImageIcon } from 'lucide-react';
 import { Button } from '../../components/common/Button';
 import { Badge } from '../../components/common/Badge';
 import { CameraCaptureModal } from '../../components/common/CameraCaptureModal';
@@ -145,10 +145,10 @@ export function TryOnPreview({
         </div>
       </section>
 
-      {/* Center AI Linking Pill */}
+      {/* Center Linking Node */}
       <div className="panels-linking-node" aria-hidden="true">
         <div className="linking-circle">
-          <Sparkles size={16} />
+          <Plus size={16} />
         </div>
       </div>
 
